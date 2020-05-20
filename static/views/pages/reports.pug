@@ -1,0 +1,49 @@
+extends ../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li Потяги
+    h2= 'Найпопулярніший маршрути'
+    if !info
+        p Скоро буде
+    each val, key in info
+        div='Маршрут ' + key + '- використали ' + val
+    h2= 'Найприбутковіші білети'
+    if !infomoney
+        p Зачекайте іще
+    each val, key in infoMoney
+        div='Білет ' + key + ' приніс ' + val
+    br
+    h2 Звіт продані квитки на заданий потяг
+    form( name='Edit' class='form-inline' action='/traitSells' method='POST')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Вибери потяг
+            div(class='col-md-9')
+                select(name = 'index')
+                    each val, index in data
+                        option= index + '. Імя:' + val.name + '. Маршрут:' + val.Route + '. Номер:' + val.number
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+            if !hope
+                p Тут будуть наші квитки
+            else
+                each val, index in hope
+                    div= 'Номер:' + val.number + '. Ціна:' + val.prise
+                    br
+
+    br
+    h2 Звіт маршрути без проданих квитків
+    if !end
+        p Тут будуть наші квитки
+    else
+        each val, index in end
+            div= 'Імя:' + val.name + '. Маршрут:' + val.Route+ '. Номер:' + val.number
+            br
+block append scripts
+    script(src='/static/js/models/shop.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/shop.js')

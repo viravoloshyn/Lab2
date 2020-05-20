@@ -1,0 +1,76 @@
+extends ../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li Потяги
+    form(id='shop-add-form' name='shop-add-form' class='form-inline' action='/byeTicket' method='POST')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='') Потяг
+            select(name = 'train')
+                each val, index in trains
+                    option= index + '. Імя:' + val.name + '. Маршрут:' + val.Route + '. Номер:' + val.number
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Пасажир
+            div(class='col-md-9')
+                select(name = 'pass')
+                     each val, index in pass
+                         option= index + '. Імя:' + val.name + '. Паспорт:' + val.pasportId
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Ticket
+            div(class='col-md-9')
+                select(name = 'ticket')
+                    each val, index in ticket
+                        option= index + '. Номер:' + val.number + '. Ціна:' + val.prise
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+
+        br
+        hr
+        div.list-wrapper
+            table(id='shop-list')
+                if byeTicket.length === 0
+                    p Ніхто іще не купив білет
+                else
+                    each val, index in byeTicket
+                        tr
+                            td= index
+                            td=' Пасажир:' + val.passanger.name
+                            td=' Потяг:' + val.train.Route
+                            td=' Номер квитка:' + val.ticket.number
+                            td=' Дата продажі:' + val.date
+    hr
+    br
+    form(id='shop-add-form' name='shop-add-form' class='form-inline' action='/changeTicket' method='POST')
+        div(class='form-group')
+            div(class='')
+                label(for='') Виберыть кому змінити квиток
+            if byeTicket.length === 0
+                p Ніхто іще не купив білет
+            else
+                select(name = 'byeTicket')
+                    each val, index in byeTicket
+                        option= index + ' Пасажир:' + val.passanger.name + ' Потяг:' + val.train.Route + ' Номер квитка:' + val.ticket.number
+            br
+            div(class='')
+                div(class='')
+                    label(for='name') Новий квиток
+                div(class='')
+                    select(name = 'ticket')
+                        each val, index in ticket
+                            option= index + '. Номер:' + val.number + '. Ціна:' + val.prise
+
+
+        div(class='')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+block append scripts
+    script(src='/static/js/models/shop.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/shop.js')

@@ -1,0 +1,26 @@
+extends ../../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li Усі квитки
+
+
+    div
+    br
+    hr
+    div.list-wrapper
+        table(id='shop-list')
+            each val, index in data
+                tr
+                    td= index
+                    td='Номер:' + val.number
+                    td='Ціна:' + val.prise
+
+
+block append scripts
+    script(src='/static/js/models/shop.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/shop.js')

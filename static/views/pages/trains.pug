@@ -1,0 +1,96 @@
+extends ../layout.pug
+
+block prepend styles
+    link(rel='stylesheet' href='//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css')
+
+block content
+    div(class='breadcrumb')
+        li Потяги
+    form(id='shop-add-form' name='shop-add-form' class='form-inline' action='/createTrain' method='POST')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Name
+            div(class='col-md-9')
+                input(id='name' name='name' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Route
+            div(class='col-md-9')
+                input(id='' name='Route' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Number
+            div(class='col-md-9')
+                input(id='address' name='number' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-12')
+                button(type='submit' class='btn btn-primary') Create
+
+        br
+        hr
+        div.list-wrapper
+            table(id='shop-list')
+                each val, index in data
+                    tr
+                        td= index
+                        td='Імя:' + val.name
+                        td=' Маршрут:' + val.Route
+                        td=' Номер:' + val.number
+    br
+    h2  Редагування потяга в колекції
+    form( name='Edit' class='form-inline' action='/editTrain' method='POST')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') New Name
+            div(class='col-md-9')
+                input( name='name' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') New Route
+            div(class='col-md-9')
+                input( name='Route' value='' class='form-control')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') New Number
+            div(class='col-md-9')
+                input( name='number' value='' class='form-control')
+        div(class='form-group')
+            select#OueShip(name = 'index')
+                each val, index in data
+                    option= index + '. Імя:' + val.name + '. Маршрут:' + val.Route+ '. Номер:' + val.number
+
+            div(class='form-group')
+                div(class='col-md-12')
+                    button(type='submit' class='btn btn-primary') Edit
+    br
+    h2  Видалення потяга з колекції
+    form( name='Edit' class='form-inline' action='/deleteTrain' method='POST')
+        div(class='form-group')
+            select(name = 'index')
+                each val, index in data
+                    option= index + '. Імя:' + val.name + '. Маршрут:' + val.Route+ '. Номер:' + val.number
+
+            div(class='form-group')
+                div(class='col-md-12')
+                    button(type='submit' class='btn btn-primary') Delete
+    br
+    h2  Пошук по номеру
+    if info
+        h3= 'Знайдений потяг ' + info.name
+    else
+        p Тут буде інформація про потяг
+    form( name='Edit' class='form-inline' action='/findTrain' method='POST')
+        div(class='form-group')
+            div(class='col-md-3')
+                label(for='name') Number
+            div(class='col-md-9')
+                input( name='number' value='' class='form-control')
+
+
+            div(class='form-group')
+                div(class='col-md-12')
+                    button(type='submit' class='btn btn-primary') Edit
+block append scripts
+    script(src='/static/js/models/shop.js')
+    script(src='//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js')
+    script(src='/static/js/views/shop.js')
